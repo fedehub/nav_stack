@@ -13,7 +13,7 @@
   
   <!-- Gazebo home environment -->
   <include file="$(find gazebo_ros)/launch/empty_world.launch">
-    <arg name="world_name" value="/home/freddyboy/ros_ws/src/nav_stack/worlds/home.world"/>
+    <arg name="world_name" value="/home/freddyboy/ros_ws/src/nav_stack/worlds/house.world"/>
   </include>
 
   <!-- Spawn the robot model -->
