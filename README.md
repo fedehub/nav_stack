@@ -1,4 +1,6 @@
-## Launching the simulation
+# Launching the simulation
+
+For launching the overall simulation
 
 ```sh
 
@@ -6,14 +8,30 @@ roslaunch nav_stack nav_stack_gazebo.launch
 
 ```
 
+For starting the mapping process
+
+```sh
+
+roslaunch hector_slam_launch tutorial.launch
+
+```
+
+For starting teleoperation throgh keyboard's commands
+
+```sh
+
+roslaunch nav_stack teleop_control.launch
+
+```
+
 ## pkgs needed 
 
 - mobile_manipulator_body
 - amcl
-- 
+- Hector-SLAM package
 
 
-##  To install
+##  To be installed
 
 For seeing the active coordinate frames, we need to install the tf2 ros tool. If we don't have it yet 
 
@@ -37,8 +55,35 @@ For granting the correctness of the  installation procedure, run
 rospack find amcl  
 
 ```
-> as output we should have a path like `/opt/ros/noetic/share/amcl`
+> **Note** as output we should have a path like `/opt/ros/noetic/share/amcl`
 
+For the graphical user interface, the fourth version of qt has been employed; If not yet installed, please run:
+
+```sh
+
+sudo add-apt-repository ppa:rock-core/qt4 
+sudo apt update 
+sudo apt-get install qt4-qmake qt4-dev-tools 
+
+
+```
+
+For the Hector_SLAM package 
+
+```sh
+
+git clone https://github.com/tu-darmstadt-ros-pkg/hector_slam.git
+
+
+```
+
+For the map_server, needed for both saving and loading maps on Rviz, run:
+
+```sh
+
+sudo apt-get install ros-noetic-map-server
+
+```
 
 # About the ROS navigation stack
 
@@ -74,7 +119,7 @@ It is responsible for sending velocity commands to the robot base controller. It
 
 ## AMCL parameters
 
-The amcl implements the adaptive (or KLD-sampling) Monte Carlo localization approach (as described by Dieter Fox), which uses a particle filter to track the pose of a robot against a known map. 
+The amcl implements the *adaptive* (or KLD-sampling) *Monte Carlo localization* approach (as described by Dieter Fox), which uses a particle filter to track the pose of a robot against a known map. 
 
 It is a well-established probabilistic localization system and in order to *tune* its parameters, it is necessary to enter the **amcl** directory and modify the `amcl_diff.launch` file 
 
@@ -120,8 +165,76 @@ Moreover, further modifications have been applied to the default vakues of the a
 
 ```
 
+## Hector-SLAM Coordinate Frame parameters
+
+Within the **hector-SLAM package** two lines have been changed in order to make the mobile manipulator robot's **frame names** coincide. Starting with the [mapping_default.launch] file. we set (line 7 and 9):
+
+```yaml
+
+<arg name="base_frame" default="base_link"/>
+<arg name="odom_frame" default="odom"/>
+
+```
+
+and (line 59)
+
+```yaml
+
+  <node pkg="tf" type="static_transform_publisher" name="base_to_laser_broadcaster" args="0 0 0 0 0 0 base_link laser_link 100"/>
+
+```
+
+For launching the simulation please refer to [this](#launching-the-simulation) section
+
+
+
+## About the Map
+
+Inside the [world][9] folder, it is possible to retrieve the mapping records of the arena arranged for the assignment fullfillment. The name of the file where the map is stored can be accessed by following the following steps 
+
+1. Move to the right directory
+  ```sh
+  roscd nav_stack/maps
+  ``` 
+  
+2. Open a terminal and run the ROSCORE in background
+   
+   ```sh
+   roscore &
+   ```
+
+3. Open another termminal and run `map_server` by:
+   
+   ```sh
+   rosrun map_server map_server test.yaml
+   ```
+
+4. Open another terminal and launch Rviz by typing: 
+   
+   ```sh
+   rviz
+   ```
+
+5. Add manually the topic `/map`
+   
+6. Select  in the drop down menu, appeared in the left side of the Rviz GUI, aside -> **map**
+  
+
+> For saving a new map, after having launched the **hector_slam** pkg and having mapped the overall environment,  run the following instruction (where *"test"* stands by the name of the simulation)
+
+```sh
+
+rosrun map_server map_saver -f test
+
+
+```
+
+
+
+
 <!-- Links & Resources -->
 [1]: http://wiki.ros.org/navigation
 [2]: gitblabla
 
 [7]: http://library.isr.ist.utl.pt/docs/roswiki/amcl.html
+[8]: https://github.com/fedehub/nav_stack/hector_slam_pkgs/hector_mapping/launch/mapping_default.launch

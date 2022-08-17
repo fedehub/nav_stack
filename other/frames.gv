@@ -1,0 +1,18 @@
+digraph G {
+"base_link" -> "imu_link"[label=" Broadcaster: /robot_state_publisher\nAverage rate: 10000.0\nBuffer length: 0.0\nMost recent transform: 0.0\nOldest transform: 0.0\n"];
+"odom" -> "base_link"[label=" Broadcaster: /gazebo\nAverage rate: 50.201\nBuffer length: 4.98\nMost recent transform: 36.47\nOldest transform: 31.49\n"];
+"base_link" -> "laser_link"[label=" Broadcaster: /robot_state_publisher\nAverage rate: 10000.0\nBuffer length: 0.0\nMost recent transform: 0.0\nOldest transform: 0.0\n"];
+"base_link" -> "arm_base"[label=" Broadcaster: /robot_state_publisher\nAverage rate: 50.806\nBuffer length: 4.96\nMost recent transform: 36.45\nOldest transform: 31.49\n"];
+"bicep" -> "bottom_wrist"[label=" Broadcaster: /robot_state_publisher\nAverage rate: 50.806\nBuffer length: 4.96\nMost recent transform: 36.45\nOldest transform: 31.49\n"];
+"arm_base" -> "bicep"[label=" Broadcaster: /robot_state_publisher\nAverage rate: 50.806\nBuffer length: 4.96\nMost recent transform: 36.45\nOldest transform: 31.49\n"];
+"bottom_wrist" -> "elbow"[label=" Broadcaster: /robot_state_publisher\nAverage rate: 50.806\nBuffer length: 4.96\nMost recent transform: 36.45\nOldest transform: 31.49\n"];
+"base_link" -> "front_left_wheel"[label=" Broadcaster: /robot_state_publisher\nAverage rate: 49.597\nBuffer length: 4.96\nMost recent transform: 36.45\nOldest transform: 31.49\n"];
+"base_link" -> "front_right_wheel"[label=" Broadcaster: /robot_state_publisher\nAverage rate: 49.597\nBuffer length: 4.96\nMost recent transform: 36.45\nOldest transform: 31.49\n"];
+"base_link" -> "rear_left_wheel"[label=" Broadcaster: /robot_state_publisher\nAverage rate: 49.597\nBuffer length: 4.96\nMost recent transform: 36.45\nOldest transform: 31.49\n"];
+"base_link" -> "rear_right_wheel"[label=" Broadcaster: /robot_state_publisher\nAverage rate: 49.597\nBuffer length: 4.96\nMost recent transform: 36.45\nOldest transform: 31.49\n"];
+"elbow" -> "top_wrist"[label=" Broadcaster: /robot_state_publisher\nAverage rate: 49.597\nBuffer length: 4.96\nMost recent transform: 36.45\nOldest transform: 31.49\n"];
+edge [style=invis];
+ subgraph cluster_legend { style=bold; color=black; label ="view_frames Result";
+"Recorded at time: 36.488"[ shape=plaintext ] ;
+}->"odom";
+}

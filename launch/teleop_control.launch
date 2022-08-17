@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<launch>
+
+<!-- ========= teleoperating the robot over the environment ========= -->
+<!-- it also neeed a topic remapping in order to receive commands over the dedeicated topic  -->
+<node name="teleop" pkg="teleop_twist_keyboard" type="teleop_twist_keyboard.py" output="screen">
+<remap from="cmd_vel" to="/robot_base_velocity_controller/cmd_vel"/>
+</node> 
+
+</launch>
