@@ -3,25 +3,19 @@
 For launching the overall simulation
 
 ```sh
-
 roslaunch nav_stack nav_stack_gazebo.launch
-
 ```
 
 For starting the mapping process
 
 ```sh
-
 roslaunch hector_slam_launch tutorial.launch
-
 ```
 
 For starting teleoperation throgh keyboard's commands
 
 ```sh
-
 roslaunch nav_stack teleop_control.launch
-
 ```
 
 # pkgs needed 
@@ -37,54 +31,47 @@ roslaunch nav_stack teleop_control.launch
 For seeing the active coordinate frames, we need to install the tf2 ros tool. If we don't have it yet 
 
 ```sh
-
 sudo apt-get install ros-noetic-tf2-tools
-
 ```
 To install the ROS navigation stack, run
 
 ```sh
-
 sudo apt-get install ros-noetic-navigation
-
 ```
 
 For granting the correctness of the  installation procedure, run 
 
 ```sh
-
 rospack find amcl  
-
 ```
-> **Note** as output we should have a path like `/opt/ros/noetic/share/amcl`
+> **Remark:** as output we should have a path like `/opt/ros/noetic/share/amcl`
 
 For the graphical user interface, the fourth version of qt has been employed; If not yet installed, please run:
 
 ```sh
-
 sudo add-apt-repository ppa:rock-core/qt4 
 sudo apt update 
 sudo apt-get install qt4-qmake qt4-dev-tools 
-
-
 ```
 
 For the Hector_SLAM package 
 
 ```sh
-
 git clone https://github.com/tu-darmstadt-ros-pkg/hector_slam.git
-
-
 ```
 
 For the map_server, needed for both saving and loading maps on Rviz, run:
 
 ```sh
-
 sudo apt-get install ros-noetic-map-server
-
 ```
+For setting up the robot_pose_ekf (extended Kalaman filter), just download
+
+```sh
+sudo apt-get install ros-noetic-robot-pose-ekf
+```
+
+> **Remark:**  remember to build the package by running `catkin_make` in the ros_workspace
 
 # About the ROS navigation stack
 
@@ -271,15 +258,18 @@ This package makes use of an important algorithm, frequently used in the robotic
 > **Remark**: For installing it, please refer to the [Installing procedures](#to-be-installed) reported in the linekd section 
 
 
-The robot_pose_ekf node will subscribe to the following topics (ROS message types are in parentheses):
+### The robot_pose_ekf Subscribers
 
 - `/odom `:  Position and velocity estimate based on the information from the wheel encoder tick counts. The orientation is in quaternion format. (nav_msgs/Odometry)
 - `/imu_data` : Data from the Inertial Measurement Unit (IMU) sensor (sensor_msgs/Imu.msg)
 
-This node will publish data to the following topics:
+### The robot_pose_ekf Publishers
 
-- `/robot_pose_ekf/odom_combined` : The output of the filter…the estimated 3D robot pose (geometry_msgs/PoseWithCovarianceStamped)
+- `/robot_pose_ekf/odom_combined` : The output of the filter or the estimated 3D robot pose (geometry_msgs/PoseWithCovarianceStamped)
 
+
+### Some notes from the tutorial's author
+ 
 You might now be asking, how do we give the robot_ekf_pose node the data it needs? 
 
 The data for `/odom `will come from the `/base_truth_odom `topic which is declared inside the URDF file for the robot.
@@ -292,7 +282,7 @@ However, in this simulation, we are using Gazebo ground truth for the odometry, 
 
 ## The final launch file 
 
-In the last version of the launch file, named [nav_stack_v2_gazebo.launch][] we need to remap the data coming from the` /base_truth_odom` topic since the **robot_pose_ekf** node needs the topic name to be `/odom.`
+In the last version of the launch file, named [nav_stack_v1_gazebo.launch][] we need to remap the data coming from the` /base_truth_odom` topic since the **robot_pose_ekf** node needs the topic name to be `/odom.`
 
 
 <!-- Links & Resources -->
