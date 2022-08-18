@@ -112,7 +112,6 @@ The amcl implements the *adaptive* (or KLD-sampling) *Monte Carlo localization* 
 It is a well-established probabilistic localization system and in order to *tune* its parameters, it is necessary to enter the **amcl** directory and modify the `amcl_diff.launch` file 
 
 ```txt
-
 amcl
     ├── cmake
     │   ├── amclConfig.cmake
@@ -123,7 +122,6 @@ amcl
     └── package.xml
 
     2 directories, 5 files
-
 ```
 
 with respect tp the orginal one, it is suggestable to add the `transform_tolerance` parameter, after the definition of the `odom_alpha_5` and `resemple_interval`, with slightly different values. 
@@ -131,14 +129,11 @@ with respect tp the orginal one, it is suggestable to add the `transform_toleran
 > From the ROS wiki [documentatiomn][7], it is referred to *" The time with which to post-date the transform that is published, to indicate that this transform is valid into the future. "* 
 
 ```yaml
-
     <!-- <param name="odom_alpha5" value="0.003"/> -->
     <param name="transform_tolerance" value="0.2" />
 
     <!-- <param name="resample_interval" value="1.0"/> -->
     <param name="transform_tolerance" value="0.1" />
-
-
 ```
 Moreover, further modifications have been applied to the default vakues of the aforementioned parameter server, here below reported 
 
@@ -158,18 +153,14 @@ Moreover, further modifications have been applied to the default vakues of the a
 Within the **hector-SLAM package** two lines have been changed in order to make the mobile manipulator robot's **frame names** coincide. Starting with the [mapping_default.launch] file. we set (line 7 and 9):
 
 ```yaml
-
 <arg name="base_frame" default="base_link"/>
 <arg name="odom_frame" default="odom"/>
-
 ```
 
 and (line 59)
 
 ```yaml
-
   <node pkg="tf" type="static_transform_publisher" name="base_to_laser_broadcaster" args="0 0 0 0 0 0 base_link laser_link 100"/>
-
 ```
 
 For launching the simulation please refer to [this](#launching-the-simulation) section
@@ -211,10 +202,7 @@ Inside the [world][9] folder, it is possible to retrieve the mapping records of 
 > **Remark:** For saving a new map, after having launched the **hector_slam** pkg and having mapped the overall environment,  run the following instruction (where *"test"* stands by the name of the simulation)
 
 ```sh
-
 rosrun map_server map_saver -f test
-
-
 ```
 
 ## About the sensors
