@@ -272,6 +272,7 @@ However, in this simulation, we are using Gazebo ground truth for the odometry, 
 
 In the last version of the launch file, named [nav_stack_v1_gazebo.launch][] we need to remap the data coming from the` /base_truth_odom` topic since the **robot_pose_ekf** node needs the topic name to be `/odom.`
 
+![rosgraph_nodes_topics_all](https://user-images.githubusercontent.com/61761835/185404236-9530af31-9fd0-42d8-94ea-cc32b6949013.png)
 
 <!-- Links & Resources -->
 [1]: http://wiki.ros.org/navigation
