@@ -24,14 +24,15 @@ roslaunch nav_stack teleop_control.launch
 
 ```
 
-## pkgs needed 
+# pkgs needed 
 
 - mobile_manipulator_body
 - amcl
 - Hector-SLAM package
+- robot_pose_ekf
 
 
-##  To be installed
+#  To be installed
 
 For seeing the active coordinate frames, we need to install the tf2 ros tool. If we don't have it yet 
 
@@ -103,7 +104,7 @@ To store information about obstacles within the environment, the ROS navigation 
 
 The **Global costmap** differs from the local one since it is mainly used to generate **long-term** plans rather than local ones, over the entire environment. 
 
-> :info: While global costmaps are used for calculating a certain path, i.e. from a *starting point* 0 to an *ending point* 1, local costmaps are employed to avoid obstacles in the nearby 
+> **Remark** While global costmaps are used for calculating a certain path, i.e. from a *starting point* 0 to an *ending point* 1, local costmaps are employed to avoid obstacles in the nearby 
 
 ## Local costmap files 
 
@@ -220,7 +221,7 @@ Inside the [world][9] folder, it is possible to retrieve the mapping records of 
 6. Select  in the drop down menu, appeared in the left side of the Rviz GUI, aside -> **map**
   
 
-> For saving a new map, after having launched the **hector_slam** pkg and having mapped the overall environment,  run the following instruction (where *"test"* stands by the name of the simulation)
+> **Remark:** For saving a new map, after having launched the **hector_slam** pkg and having mapped the overall environment,  run the following instruction (where *"test"* stands by the name of the simulation)
 
 ```sh
 
@@ -229,7 +230,69 @@ rosrun map_server map_saver -f test
 
 ```
 
+## About the sensors
 
+An IMU sensor has been added to the robot model, being it responsible for a more accurate localisation. All the data gathered by the robot are sent over the `/imu_data` topic, and each time stamp provides i.e., the following information
+
+```txt
+---
+header: 
+  seq: 57
+  stamp: 
+    secs: 64
+    nsecs: 177000000
+  frame_id: "imu_link"
+orientation: 
+  x: 2.0619728275745428e-05
+  y: 0.00024832481579281195
+  z: -0.0005228758893711238
+  w: 0.9999998322551945
+orientation_covariance: [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+angular_velocity: 
+  x: 1.6092944895808343e-05
+  y: -5.319004252648346e-05
+  z: -3.7358866763833176e-05
+angular_velocity_covariance: [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+linear_acceleration: 
+  x: -0.004856549931038139
+  y: 0.0003927275973314464
+  z: 9.799972587559754
+linear_acceleration_covariance: [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+---
+
+```
+
+## about the robot_pose_ekf pkg
+
+This package makes use of an important algorithm, frequently used in the robotics application. It is known as "**Extended Kalaman Filter**" and it uses data gathered through the robot's sensor for then estimating the next state of the robot, in terms of its 
+- position 
+- orientation 
+
+> **Remark**: For installing it, please refer to the [Installing procedures](#to-be-installed) reported in the linekd section 
+
+
+The robot_pose_ekf node will subscribe to the following topics (ROS message types are in parentheses):
+
+- `/odom `:  Position and velocity estimate based on the information from the wheel encoder tick counts. The orientation is in quaternion format. (nav_msgs/Odometry)
+- `/imu_data` : Data from the Inertial Measurement Unit (IMU) sensor (sensor_msgs/Imu.msg)
+
+This node will publish data to the following topics:
+
+- `/robot_pose_ekf/odom_combined` : The output of the filter…the estimated 3D robot pose (geometry_msgs/PoseWithCovarianceStamped)
+
+You might now be asking, how do we give the robot_ekf_pose node the data it needs? 
+
+The data for `/odom `will come from the `/base_truth_odom `topic which is declared inside the URDF file for the robot.
+
+The data for `/imu_data ` will come from the `/imu_data `topic which is also declared inside the URDF file for the robot. 
+
+However, in this simulation, we are using Gazebo ground truth for the odometry, instead of IMU data. 
+
+> **Remark**: to use the IMU data, it is necessary to set that parameter to `true` inside the launch file section for the **robot_pose_ekf** code.
+
+## The final launch file 
+
+In the last version of the launch file, named [nav_stack_v2_gazebo.launch][] we need to remap the data coming from the` /base_truth_odom` topic since the **robot_pose_ekf** node needs the topic name to be `/odom.`
 
 
 <!-- Links & Resources -->
@@ -238,3 +301,4 @@ rosrun map_server map_saver -f test
 
 [7]: http://library.isr.ist.utl.pt/docs/roswiki/amcl.html
 [8]: https://github.com/fedehub/nav_stack/hector_slam_pkgs/hector_mapping/launch/mapping_default.launch
+[9]: https://github.com/fedehub/nav_stack/launch/nav_stack_v2_gazebo.launch
