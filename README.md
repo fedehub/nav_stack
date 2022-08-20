@@ -257,8 +257,6 @@ This package makes use of an important algorithm, frequently used in the robotic
 
 
 ### Some notes from the tutorial's author
- 
-You might now be asking, how do we give the robot_ekf_pose node the data it needs? 
 
 The data for `/odom `will come from the `/base_truth_odom `topic which is declared inside the URDF file for the robot.
 
