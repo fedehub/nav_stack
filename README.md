@@ -18,6 +18,9 @@ For starting teleoperation throgh keyboard's commands
 roslaunch nav_stack teleop_control.launch
 ```
 
+https://user-images.githubusercontent.com/61761835/187448562-8ae407e9-1471-48e7-9ec4-fcb57d776b0f.mp4
+
+
 # pkgs needed 
 
 - mobile_manipulator_body
@@ -25,8 +28,6 @@ roslaunch nav_stack teleop_control.launch
 - Hector-SLAM package
 - robot_pose_ekf
 
-
-https://user-images.githubusercontent.com/61761835/187448562-8ae407e9-1471-48e7-9ec4-fcb57d776b0f.mp4
 
 
 
