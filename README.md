@@ -26,6 +26,10 @@ roslaunch nav_stack teleop_control.launch
 - robot_pose_ekf
 
 
+https://user-images.githubusercontent.com/61761835/187448562-8ae407e9-1471-48e7-9ec4-fcb57d776b0f.mp4
+
+
+
 #  To be installed
 
 For seeing the active coordinate frames, we need to install the tf2 ros tool. If we don't have it yet 
