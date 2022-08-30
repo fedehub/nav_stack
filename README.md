@@ -18,7 +18,19 @@ For starting teleoperation throgh keyboard's commands
 roslaunch nav_stack teleop_control.launch
 ```
 
+# Tutorial launcher
+
+
 https://user-images.githubusercontent.com/61761835/187448562-8ae407e9-1471-48e7-9ec4-fcb57d776b0f.mp4
+
+## repos needed 
+
+Please clone the following repos:
+```
+git clone https://github.com/fedehub/mobile_manipulator_moveit_config
+git clone https://github.com/fedehub/mobile_manipulator_body
+git clone https://github.com/fedehub/hector_slam
+```
 
 
 # pkgs needed 
